@@ -4,3 +4,4 @@ export { Remember } from "./Remember";
 export { Screenshot } from "./Screenshot";
 export { Click } from "./Click";
 export { Insert } from "./Insert";
+export { Select } from "./Select";

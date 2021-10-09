@@ -3,7 +3,6 @@ import { Browser, Page } from "puppeteer";
 import { Action } from "./Config/Action";
 import { Workflow } from "./Config/Workflow";
 import { ActionInterface } from "./Constrains/ActionInterface";
-import { ConfigurationException } from "./Exceptions/ConfigurationException";
 import { Results } from "./Scraper/Reults";
 import { Scraper } from "./Scraper/Scraper";
 
