@@ -10,10 +10,9 @@ export class Scraper {
     public async runAction(actionConfig: Action, results: Results): Promise<void> 
     {
         let action: Actions.Action = actionConfig.getActionInstance();
-        let result = action.execute(this.page, actionConfig.params);
-        if (!!result) {
-            results.push(result);
-        }
+        let result = await action.execute(this.page, actionConfig.params);
+
+        results.add(actionConfig, result);
     }
 
 }
