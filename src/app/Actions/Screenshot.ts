@@ -15,8 +15,9 @@ export class Screenshot extends Action {
         if (!params.value) {
             throw new ConfigurationException("Screenshot Error: Plese specify full path to the screenshot in the \"value\" configuration property.");
         }
+
         let screenConfig: ScreenshotOptions = {
-            path: `${params.value}.png`
+            path: params.value.replace(/\.[a-zA-Z]{1,3}$/ig, '') + '.png'
         };
 
         let screenArea: (Page|ElementHandle<Element>) = await this.findScreenshotElement(page, params);

@@ -8,9 +8,7 @@ export class Remember extends Action {
     {
         await page.waitForSelector(params.selector);
         let element = await page.$(params.selector);
-        let value: string = await page.evaluate(el => el.textContent, element);
-
-        console.log(value);
+        let value: string = await page.evaluate(el => el.innerText, element);
 
         return value;
     }
