@@ -1,1 +1,3 @@
-export const Greeter = (name: string) => `Hello ${name}`; 
+import { Miner } from "./app/Miner";
+
+export default Miner;
