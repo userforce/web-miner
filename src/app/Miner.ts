@@ -10,6 +10,8 @@ import { Scraper } from "./Scraper/Scraper";
 export class Miner {
 
     private browser: (Browser|any);
+    private windowWidth: number = 1400;
+    private windowHeight: number = 1000;
 
     public async scrape(jsonConfig: (string|Array<ActionInterface>)): Promise<any>
     {
@@ -35,6 +37,11 @@ export class Miner {
 
     private async run(workflow: Workflow, results: Results): Promise<Results> {
         let page: Page = await this.browser.newPage();
+        page.setViewport({
+            width: this.windowWidth, 
+            height: this.windowHeight,
+            isMobile: false
+        });
         let scraper: Scraper = new Scraper(page);
         for (let i in workflow.actions) {
             let action: Action = workflow.actions[i];
@@ -47,7 +54,9 @@ export class Miner {
     private async init() 
     {
         // There is a bug in puppeteer that don't let us import and use launch directly
-        this.browser = await puppeteer.launch();
+        this.browser = await puppeteer.launch({
+            args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
+        });
     }
 
 }

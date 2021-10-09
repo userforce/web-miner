@@ -16,8 +16,7 @@ export class Screenshot extends Action {
             throw new ConfigurationException("Screenshot Error: Plese specify full path to the screenshot in the \"value\" configuration property.");
         }
         let screenConfig: ScreenshotOptions = {
-            path: `${params.value}.png`,
-            fullPage: !params.selector
+            path: `${params.value}.png`
         };
 
         let screenArea: (Page|ElementHandle<Element>) = await this.findScreenshotElement(page, params);
@@ -35,20 +34,16 @@ export class Screenshot extends Action {
      */
     private async findScreenshotElement(page: Page, params: Parameters): Promise<Page|ElementHandle<Element>>
     {
-        let element: (Page|ElementHandle<Element>|null) = page;
-        if (!!params.selector) {
-            try {
-                await page.waitForSelector(params.selector, {timeout: 10000});
-            } catch (e) {
-                throw new ConfigurationException("Screenshot Error: DOM element of the given selector not found.");
-            }
-            element = await page.$(params.selector) ?? page;
-            if (element == null) {
+        let selector: string = params.selector || "body";
 
-            } 
+        try {
+            await page.waitForSelector(selector, {timeout: 10000});
+        } catch (e) {
+            throw new ConfigurationException("Screenshot Error: DOM element of the given selector not found.");
         }
+        let element: (Page|ElementHandle<Element>|null) = await page.$(selector);
 
-        return element;
+        return element || page;
     }
 
 }
