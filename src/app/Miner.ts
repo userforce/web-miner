@@ -55,9 +55,7 @@ export class Miner {
 
     private async init() 
     {
-        // There is a bug in puppeteer that don't let us import and use launch directly
         this.browser = await puppeteer
-            // .use(new StealthPlugin({}))
             .launch({
                 args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
             });
