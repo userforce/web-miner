@@ -1,10 +1,13 @@
-import * as puppeteer from "puppeteer";
 import { Browser, Page } from "puppeteer";
 import { Action } from "./Config/Action";
 import { Workflow } from "./Config/Workflow";
 import { ActionInterface } from "./Constrains/ActionInterface";
 import { Results } from "./Scraper/Reults";
 import { Scraper } from "./Scraper/Scraper";
+
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 
 export class Miner {
 
@@ -52,10 +55,10 @@ export class Miner {
 
     private async init() 
     {
-        // There is a bug in puppeteer that don't let us import and use launch directly
-        this.browser = await puppeteer.launch({
-            args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
-        });
+        this.browser = await puppeteer
+            .launch({
+                args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
+            });
     }
 
 }

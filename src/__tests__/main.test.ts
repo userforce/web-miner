@@ -25,3 +25,14 @@ test('Test Miner', async () => {
     expect(result[3].result.length).not.toEqual(0);
     expect(result[7].result.length).not.toEqual(0);
 });
+
+test('Test Stealth', async () => {
+    let miner = new Miner();
+
+    let result = await miner.scrape([
+        {name: 'open', params: { value: "https://www.411.com/name/John-Smith/North-Port-FL" }},
+        {name: 'screenshot', params: { value: screenshotFile, selector: "body" }},
+    ]);
+    
+    expect(result[0].result.length).not.toEqual(0);
+});
