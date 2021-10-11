@@ -34,6 +34,7 @@ test('Test Stealth', async () => {
         {name: 'insert', params: { value: "(941) 941-9413", selector: "#navbarSupportedContent > form > input.form-control.mr-sm-2" }},
         {name: 'press', params: { value: "Enter" }},
         {name: 'screenshot', params: { value: screenshotFile, selector: "body" }},
+        {name: 'delay', params: { value: "5000"}},
     ]);
     
     expect(result[0].result.length).not.toEqual(0);

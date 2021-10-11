@@ -6,3 +6,4 @@ export { Click } from "./Click";
 export { Insert } from "./Insert";
 export { Select } from "./Select";
 export { Press } from "./Press";
+export { Delay } from "./Delay";
