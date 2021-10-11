@@ -1,6 +1,6 @@
 {
     "name": "@userforce/web-miner",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "description": "Web Miner",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
