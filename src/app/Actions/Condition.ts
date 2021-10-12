@@ -14,7 +14,7 @@ export class Condition extends Action {
     {
         let found: boolean = false; 
         try {
-            await page.waitForSelector(params.selector, {timeout: 7000});
+            await page.waitForSelector(params.selector, {timeout: 1000});
             found = true;
         } catch (e) {
         }
