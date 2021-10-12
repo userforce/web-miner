@@ -8,3 +8,4 @@ export { Select } from "./Select";
 export { Press } from "./Press";
 export { Delay } from "./Delay";
 export { Condition } from "./Condition";
+export { Inject } from "./Inject";

@@ -54,6 +54,45 @@ test('Test Condition', async () => {
         {name: 'click', params: { selector: "body > div.content > div.content-width > form > div:nth-child(1) > button" }},
         {name: 'screenshot', params: { value: screenshotFile, selector: "body" }},
     ]);
+});
 
-    console.log(result)
+test('Test Slect', async () => {
+    let miner = new Miner();
+
+    let injection = `
+        let elmIn = document.querySelector('#stateSelect');
+        let opt = null;
+    `;
+    let states = [
+        {
+            "name": "Alabama",
+            "abbreviation": "AL"
+        },
+        {
+            "name": "Alaska",
+            "abbreviation": "AK"
+        }
+    ];
+
+    for (let i in states) {
+        let abbr = states[i];
+        injection += `
+            opt = document.createElement('option');
+            opt.value = "${abbr}";
+            opt.innerHTML = "${abbr}";
+            elmIn.appendChild(opt);
+        `;
+    }
+
+    let result = await miner.scrape([
+        {name: 'open', params: { value: "https://www.411locate.com/" }},
+        {name: 'inject', params: { value: injection}},
+        {name: 'select', params: { value: "FL", selector: "#stateSelect" }},
+        {name: 'insert', params: { value: "John", selector: '#firstNameInput' }},
+        {name: 'insert', params: { value: "Smith", selector: '#lastNameInput' }},
+        {name: 'click', params: { selector: "#searchButton" }},
+        {name: 'delay', params: { value: "4000"}},
+        {name: 'screenshot', params: { value: screenshotFile, selector: "body" }},
+    ]);
+
 });
