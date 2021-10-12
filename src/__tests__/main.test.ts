@@ -30,8 +30,10 @@ test('Test Stealth', async () => {
 
     let securityUrlsRequestsRegex = /securepubads/i;
     let miner = new Miner({
-        headless: false
-    }, securityUrlsRequestsRegex);
+        headless: true
+    }, / fake /i);
+    miner.setRequestsToPrevent(securityUrlsRequestsRegex);
+    miner.pushConfig({ headless: false });
 
     let result = await miner.scrape([
         {name: 'open', params: { value: "https://411.com/" }},

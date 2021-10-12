@@ -17,6 +17,21 @@ export class Miner {
 
     constructor(private config: {} = {}, private requestsToPrevent?: RegExp){}
 
+    public setRequestsToPrevent(requestsToPrevent: RegExp): void
+    {
+        this.requestsToPrevent = requestsToPrevent;
+    }
+
+    public setBrowser(browser: Browser): void
+    {
+        this.browser = browser;
+    }
+
+    public pushConfig(config: {}): void
+    {
+        this.config = Object.assign(this.config, config);
+    }
+
     public async scrape(jsonConfig: (string|Array<ActionInterface>)): Promise<any>
     {
         let results = new Results();
@@ -56,14 +71,6 @@ export class Miner {
         return results;
     }
 
-    private async init() 
-    {
-        let browserConfig = Object.assign(this.config, {
-            args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
-        });
-        this.browser = await puppeteer.launch(browserConfig);
-    }
-
     private async stealthPage(page: Page): Promise<void>
     {
         if (this.requestsToPrevent instanceof RegExp) {
@@ -76,6 +83,16 @@ export class Miner {
                     request.continue();
                 }
             });
+        }
+    }
+
+    private async init() 
+    {
+        if (this.browser == undefined) {
+            let browserConfig = Object.assign(this.config, {
+                args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
+            });
+            this.browser = await puppeteer.launch(browserConfig);
         }
     }
 
