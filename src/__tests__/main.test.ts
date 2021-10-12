@@ -4,7 +4,7 @@ import * as fileSystem from 'fs';
 const screenshotFile = process.cwd()+"/test-screen.png";
 
 afterAll(async () => {
-    // await fileSystem.promises.unlink(screenshotFile);
+    await fileSystem.promises.unlink(screenshotFile);
 });
 
 jest.setTimeout(500000);
@@ -27,14 +27,16 @@ test('Test Miner', async () => {
 });
 
 test('Test Stealth', async () => {
-    let miner = new Miner();
+
+    let securityUrlsRequestsRegex = /securepubads/i;
+    let miner = new Miner({
+        headless: false
+    }, securityUrlsRequestsRegex);
 
     let result = await miner.scrape([
-        {name: 'open', params: { value: "https://24counter.com/" }},
-        {name: 'insert', params: { value: "(941) 941-9413", selector: "#navbarSupportedContent > form > input.form-control.mr-sm-2" }},
-        {name: 'press', params: { value: "Enter" }},
+        {name: 'open', params: { value: "https://411.com/" }},
+        {name: 'delay', params: { value: "4000"}},
         {name: 'screenshot', params: { value: screenshotFile, selector: "body" }},
-        {name: 'delay', params: { value: "5000"}},
     ]);
     
     expect(result[0].result.length).not.toEqual(0);

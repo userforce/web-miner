@@ -15,6 +15,8 @@ export class Miner {
     private windowWidth: number = 1400;
     private windowHeight: number = 1000;
 
+    constructor(private config: {} = {}, private requestsToPrevent?: RegExp){}
+
     public async scrape(jsonConfig: (string|Array<ActionInterface>)): Promise<any>
     {
         let results = new Results();
@@ -39,6 +41,7 @@ export class Miner {
 
     private async run(workflow: Workflow, results: Results): Promise<Results> {
         let page: Page = await this.browser.newPage();
+        this.stealthPage(page);
         page.setViewport({
             width: this.windowWidth, 
             height: this.windowHeight,
@@ -55,10 +58,25 @@ export class Miner {
 
     private async init() 
     {
-        this.browser = await puppeteer
-            .launch({
-                args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
+        let browserConfig = Object.assign(this.config, {
+            args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
+        });
+        this.browser = await puppeteer.launch(browserConfig);
+    }
+
+    private async stealthPage(page: Page): Promise<void>
+    {
+        if (this.requestsToPrevent instanceof RegExp) {
+            await page.setRequestInterception(true);
+            page.on('request', request => {
+                let regex: RegExp = this.requestsToPrevent instanceof RegExp ? this.requestsToPrevent : / \\ \/ \?/i;
+                if (regex.test(request.url())) {
+                    request.abort();
+                } else {
+                    request.continue();
+                }
             });
+        }
     }
 
 }
