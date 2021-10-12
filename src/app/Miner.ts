@@ -63,9 +63,21 @@ export class Miner {
             isMobile: false
         });
         let scraper: Scraper = new Scraper(page);
+        let skipTo: string = 'no';
         for (let i in workflow.actions) {
+            if (skipTo != 'no') {
+                let next = +skipTo;
+                if (next != NaN && parseInt(i) == (parseInt(skipTo) - 1)) {
+                    skipTo = 'no';
+                } else {
+                    continue;
+                }
+            }
             let action: Action = workflow.actions[i];
             await scraper.runAction(action, results);
+            if (action.name == 'condition') {
+                skipTo = action.params.value;
+            }
         }
         
         return results;
