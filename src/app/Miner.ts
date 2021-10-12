@@ -74,8 +74,8 @@ export class Miner {
                 }
             }
             let action: Action = workflow.actions[i];
-            await scraper.runAction(action, results);
-            if (action.name == 'condition') {
+            let actionResult = await scraper.runAction(action, results);
+            if (action.name == 'condition' && actionResult == true) {
                 skipTo = action.params.value;
             }
         }

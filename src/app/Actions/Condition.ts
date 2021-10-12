@@ -16,7 +16,8 @@ export class Condition extends Action {
         try {
             await page.waitForSelector(params.selector, {timeout: 7000});
             found = true;
-        } catch (e) {}
+        } catch (e) {
+        }
 
         return found;
     }

@@ -7,12 +7,14 @@ export class Scraper {
 
     constructor(private page: Page) {}
 
-    public async runAction(actionConfig: Action, results: Results): Promise<void> 
+    public async runAction(actionConfig: Action, results: Results): Promise<any> 
     {
         let action: Actions.Action = actionConfig.getActionInstance();
         let result = await action.execute(this.page, actionConfig.params);
 
         results.add(actionConfig, result);
+
+        return result;
     }
 
 }
