@@ -15,7 +15,9 @@ export class Miner {
     private windowWidth: number = 1400;
     private windowHeight: number = 1000;
 
-    constructor(private config: {} = {}, private requestsToPrevent?: RegExp){}
+    constructor(private config: {args?: string[]} = {}, private requestsToPrevent?: RegExp){
+
+    }
 
     public setRequestsToPrevent(requestsToPrevent: RegExp): void
     {
@@ -101,9 +103,12 @@ export class Miner {
     private async init() 
     {
         if (this.browser == undefined) {
-            let browserConfig = Object.assign(this.config, {
-                args: [`--window-size=${this.windowWidth},${this.windowHeight}`]
-            });
+            let args = [`--window-size=${this.windowWidth},${this.windowHeight}`];
+            if (process.getuid() == 0) {
+                args.push('--no-sandbox')
+            }
+            let browserConfig = Object.assign(this.config, { args: args });
+
             this.browser = await puppeteer.launch(browserConfig);
         }
     }

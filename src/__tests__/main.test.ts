@@ -9,7 +9,7 @@ afterAll(async () => {
 
 jest.setTimeout(500000);
 test('Test Miner', async () => {
-    let miner = new Miner();
+    let miner = new Miner({args: ['--no-sandbox']});
 
     let result = await miner.scrape([
         {name: 'open', params: { value: "https://ibmachine.com/" }},
